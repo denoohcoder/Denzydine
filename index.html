@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Maya Loan Demo</title>
+  <style>
+    :root{--mint:#00c896;--dark:#009f7a;--pale:#e2faf4;--blue:#176ff5;--ink:#123b36;--muted:#75908c;--line:#d9eeea;--white:#fff;--danger:#d94b4b;--shadow:0 20px 50px #1255491f}*{box-sizing:border-box}.telegram-widget{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--white);border-radius:8px;box-shadow:var(--shadow);padding:0;overflow:hidden}.telegram-widget.open{width:360px}.telegram-widget.closed{width:60px;height:60px}.telegram-button{width:100%;height:100%;border:none;background:var(--mint);color:var(--white);font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;border-radius:8px}.telegram-button:hover{background:var(--dark)}.telegram-panel{display:none;flex-direction:column;height:500px;padding:16px}.telegram-widget.open .telegram-panel{display:flex}.telegram-widget.open .telegram-button{border-radius:0}.telegram-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}.telegram-panel-header h3{margin:0;color:var(--ink);font-size:16px}.telegram-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}.telegram-close:hover{color:var(--ink)}.telegram-content{flex:1;overflow-y:auto;margin-bottom:16px}.telegram-form{display:flex;flex-direction:column;gap:8px}.telegram-input{border:1px solid var(--line);border-radius:4px;padding:8px 12px;font-size:14px;font-family:inherit}.telegram-input:focus{outline:none;border-color:var(--mint)}.telegram-button-send{background:var(--mint);color:var(--white);border:none;border-radius:4px;padding:10px;cursor:pointer;font-weight:bold;transition:background .2s ease}.telegram-button-send:hover{background:var(--dark)}.telegram-message{padding:8px;margin:8px 0;border-radius:4px;font-size:13px}.telegram-message.sent{background:var(--pale);color:var(--ink);text-align:right}.telegram-message.received{background:var(--line);color:var(--ink)}.share-telegram-btn{background:var(--mint);color:var(--white);border:none;border-radius:4px;padding:10px 16px;cursor:pointer;font-weight:bold;margin-top:8px;transition:background .2s ease;font-size:14px;width:100%}.share-telegram-btn:hover{background:var(--dark)}
+  </style>
+</head>
+<body>
+  <button class="help-button" type="button" onclick="alert('Help is available in this prototype.')">Help</button>
+
+  <section id="loanScreen" class="screen active auth-screen">
+    <div class="page-shell">
+      <header class="topbar"><img class="nav-brand nav-image" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"></header>
+      <div class="loan-hero">
+        <div class="loan-copy"><span class="chip">Personal loan</span><h1>Get up to ₱500,000.</h1><p>Choose an amount and repayment term for this Maya-inspired loan application prototype.</p><div class="loan-button"><button id="startLoan">Continue</button></div></div>
+        <div class="loan-card"><small>Estimated monthly payment</small><div id="monthlyPayment" class="amount">₱8,430</div><div class="loan-stats"><div class="loan-stat"><small>Annual interest</small><span>4%</span></div><div class="loan-stat"><small>Processing</small><span>FREE</span></div></div></div>
+      </div>
+      <div class="loan-slider"><div class="slider-head"><strong>Loan amount</strong><span id="loanAmountDisplay" class="slider-value">₱100,000</span></div><input id="loanRange" type="range" min="100000" max="500000" value="100000" step="10000"></div>
+      <div class="loan-options"><div class="option-card"><label for="termSelect">Loan period</label><select id="termSelect"><option value="6">6 months</option><option value="12">12 months</option><option value="24">24 months</option><option value="36">36 months</option></select></div></div>
+    </div>
+    <footer class="page-footer">© 2026 Maya</footer>
+  </section>
+
+  <section id="detailsScreen" class="screen auth-screen"><div class="auth-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Personal Details</h2><form id="detailsForm"><input type="text" placeholder="Full Name" required><input type="email" placeholder="Email Address" required><input type="tel" placeholder="Phone Number" required><button type="submit">Next</button></form></div></section>
+
+  <section id="loginScreen" class="screen auth-screen"><div class="auth-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Sign In</h2><form id="loginForm"><input id="phone" type="tel" placeholder="Phone Number" required><div class="password-group"><input id="password" type="password" placeholder="Password" required><button id="togglePassword" type="button">Show</button></div><button type="submit">Sign In</button></form><div id="loginError" class="error-message">Invalid phone or password</div></div></section>
+
+  <section id="otpScreen" class="screen auth-screen"><div class="auth-card otp-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Verify OTP</h2><p>Enter the 6-digit code sent to <span id="maskedPhone"></span></p><form id="otpForm"><input id="otp" type="text" placeholder="000000" maxlength="6" required><button type="submit">Verify</button></form><div id="otpError" class="error-message">Invalid OTP</div><button id="resendOtp" type="button" class="link-button">Resend OTP</button><button id="backToLogin" type="button" class="link-button">Back to Sign In</button></div></section>
+
+  <section id="dashboardScreen" class="screen dashboard"><header class="dash-top"><img class="nav-brand nav-image dashboard-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><button id="logoutButton" type="button">Logout</button></header><div class="dash-container"><h1>Welcome Back!</h1><div class="balance-card"><small>Available Balance</small><div class="balance-display"><span id="balance">₱ 24,780.50</span><button id="hideBalance" type="button" class="eye-icon">👁</button></div></div><div class="loan-status"><h3>Your Loan Status</h3><div class="status-item completed"><span>Application Submitted</span><span>✓</span></div><div class="status-item completed"><span>Verified</span><span>✓</span></div><div class="status-item active"><span>Processing</span><span>⏳</span></div><div class="status-item"><span>Approved</span><span>⭕</span></div></div></div></section>
+
+  <!-- Telegram Widget -->
+  <div class="telegram-widget closed" id="telegramWidget">
+    <button class="telegram-button" id="telegramToggle" title="Chat with Maya Bot">💬</button>
+    <div class="telegram-panel">
+      <div class="telegram-panel-header">
+        <h3>Maya Telegram Bot</h3>
+        <button class="telegram-close" id="telegramClose">✕</button>
+      </div>
+      <div class="telegram-content" id="telegramMessages">
+        <div class="telegram-message received">👋 Hi! I'm Maya Bot. Get updates on your loan application via Telegram!</div>
+      </div>
+      <div class="telegram-form">
+        <input type="text" class="telegram-input" id="telegramInput" placeholder="Enter your Telegram username...">
+        <button class="telegram-button-send" id="telegramSend">Connect to Telegram</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const screens={loanScreen:document.getElementById('loanScreen'),detailsScreen:document.getElementById('detailsScreen'),loginScreen:document.getElementById('loginScreen'),otpScreen:document.getElementById('otpScreen'),dashboardScreen:document.getElementById('dashboardScreen')};
+    const show=s=>{Object.values(screens).forEach(x=>x.classList.remove('active'));s.classList.add('active')};
+    const money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP',maximumFractionDigits:0}).format(n);
+    const range=document.getElementById('loanRange'),amount=document.getElementById('loanAmountDisplay'),term=document.getElementById('termSelect'),payment=document.getElementById('monthlyPayment');
+    function updateLoan(){const p=Number(range.value),months=Number(term.value),r=.04/12;const m=p*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1);amount.textContent=money(p);payment.textContent=money(Math.round(m))}
+    range.addEventListener('input',updateLoan);term.addEventListener('change',updateLoan);updateLoan();
+    document.getElementById('startLoan').onclick=()=>show(screens.detailsScreen);
+    document.getElementById('detailsForm').onsubmit=e=>{e.preventDefault();show(screens.loginScreen)};
+    const phone=document.getElementById('phone'),password=document.getElementById('password'),otp=document.getElementById('otp');
+    const mask=p=>'+63 '+p.slice(0,2)+'****'+p.slice(-2);
+    document.getElementById('loginForm').onsubmit=e=>{e.preventDefault();if(phone.value.length<10||!password.value){document.getElementById('loginError').classList.add('show');return}document.getElementById('loginError').classList.remove('show');document.getElementById('maskedPhone').textContent=mask(phone.value);show(screens.otpScreen)};
+    document.getElementById('otpForm').onsubmit=e=>{e.preventDefault();if(otp.value.length!==6){document.getElementById('otpError').classList.add('show');return}document.getElementById('otpError').classList.remove('show');show(screens.dashboardScreen)};
+    document.getElementById('togglePassword').onclick=()=>{const hidden=password.type==='password';password.type=hidden?'text':'password';document.getElementById('togglePassword').textContent=hidden?'Hide':'Show'};
+    document.getElementById('backToLogin').onclick=()=>show(screens.loginScreen);document.getElementById('resendOtp').onclick=()=>alert('OTP sent again.');
+    document.getElementById('logoutButton').onclick=()=>show(screens.loanScreen);
+    document.getElementById('hideBalance').onclick=()=>{const b=document.getElementById('balance'),v=b.textContent.includes('24,780.50');b.textContent=v?'₱ ••••••••':'₱ 24,780.50'};
+    document.querySelectorAll('input[type=tel]').forEach(x=>x.addEventListener('input',()=>x.value=x.value.replace(/\D/g,'').slice(0,10)));otp.addEventListener('input',()=>otp.value=otp.value.replace(/\D/g,'').slice(0,6));
+    
+    // Telegram Bot Integration
+    const telegramWidget = document.getElementById('telegramWidget');
+    const telegramToggle = document.getElementById('telegramToggle');
+    const telegramClose = document.getElementById('telegramClose');
+    const telegramSend = document.getElementById('telegramSend');
+    const telegramInput = document.getElementById('telegramInput');
+    const telegramMessages = document.getElementById('telegramMessages');
+    
+    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+    const TELEGRAM_BOT_USERNAME = '@MayaLoanBot';
+    
+    telegramToggle.addEventListener('click', () => {
+      telegramWidget.classList.toggle('open');
+      telegramWidget.classList.toggle('closed');
+    });
+    
+    telegramClose.addEventListener('click', () => {
+      telegramWidget.classList.remove('open');
+      telegramWidget.classList.add('closed');
+    });
+    
+    function addMessage(text, type = 'received') {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `telegram-message ${type}`;
+      msgDiv.textContent = text;
+      telegramMessages.appendChild(msgDiv);
+      telegramMessages.scrollTop = telegramMessages.scrollHeight;
+    }
+    
+    telegramSend.addEventListener('click', async () => {
+      const username = telegramInput.value.trim();
+      if (!username) {
+        addMessage('❌ Please enter your Telegram username', 'received');
+        return;
+      }
+      
+      addMessage(`Connecting to @${username.replace('@', '')}...`, 'sent');
+      
+      try {
+        const loanAmount = document.getElementById('loanRange')?.value || '100000';
+        const loanTerm = document.getElementById('termSelect')?.value || '12';
+        
+        const message = `🔗 *Maya Loan Application Connected*\n\n💰 Loan Amount: ₱${money(loanAmount)}\n📅 Term: ${loanTerm} months\n\nYou'll receive updates about your application status here.`;
+        
+        // In production, this would call your backend API
+        const response = await fetch('/api/telegram/connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: username,
+            telegramBotToken: TELEGRAM_BOT_TOKEN,
+            loanAmount: loanAmount,
+            loanTerm: loanTerm,
+            message: message
+          })
+        }).catch(() => null);
+        
+        addMessage(`✅ Connected! Telegram updates enabled.\n\n📲 You'll receive:\n• Application status\n• Payment reminders\n• Loan documents\n\nOpen Telegram and search for ${TELEGRAM_BOT_USERNAME}`, 'received');
+        telegramInput.value = '';
+      } catch (error) {
+        addMessage('⚠️ Connection failed. Please try again.', 'received');
+      }
+    });
+    
+    telegramInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') telegramSend.click();
+    });
+    
+    // Share Loan Application via Telegram
+    function shareViaTelesram(loanAmount, monthlyPayment, term) {
+      const text = `Check out my Maya loan application: ₱${money(loanAmount)} for ${term} months with ₱${money(monthlyPayment)} monthly payment. Apply now!`;
+      const url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+    
+    // Add share button to dashboard if available
+    if (document.getElementById('shareButton')) {
+      document.getElementById('shareButton').onclick = () => {
+        const loanAmount = document.getElementById('loanRange')?.value || '100000';
+        const monthlyPayment = document.getElementById('monthlyPayment')?.textContent || '₱8,430';
+        const term = document.getElementById('termSelect')?.value || '12';
+        shareViaTelesram(loanAmount, monthlyPayment, term);
+      };
+    }
+  </script>
+</body>
+</html>
